@@ -1,0 +1,21 @@
+plugins {
+    id "com.moowork.node" version "1.2.0"
+//    id "net.eikehirsch.react" version '0.4.1'
+    id 'war'
+}
+group 'me.demoniacdeath.chat.frontend'
+version '1.0-SNAPSHOT'
+
+task npmStart(type: NpmTask) {
+    args = ['start']
+}
+
+task npmRunBuild(type: NpmTask) {
+    args = ['run', 'build']
+}
+
+war {
+    archiveName 'frontend.war'
+    destinationDir = file('out/war')
+    from 'build'
+}
