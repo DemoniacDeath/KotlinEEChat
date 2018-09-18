@@ -1,8 +1,10 @@
 package me.demoniacdeath.chat.backend.interfaces.model
 
+import me.demoniacdeath.chat.backend.Bean
 import java.io.Serializable
 
-data class Credentials(
-        val username: String,
-        val password: String
+@Bean
+class Credentials(
+        open var handler: String,
+        open var password: String
 ): Serializable
