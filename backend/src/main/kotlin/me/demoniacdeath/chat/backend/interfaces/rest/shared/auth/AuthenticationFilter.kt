@@ -21,7 +21,7 @@ import javax.ws.rs.ext.Provider
 @Priority(Priorities.AUTHENTICATION)
 open class AuthenticationFilter : ContainerRequestFilter, AuthenticatorInterface {
     companion object {
-        val schemes: List<AuthMethod> = listOf(
+        val authMethods: List<AuthMethod> = listOf(
                 Scheme.Basic(),
                 Scheme.Bearer(),
                 Param("access_token"),
@@ -40,7 +40,7 @@ open class AuthenticationFilter : ContainerRequestFilter, AuthenticatorInterface
     override fun filter(requestContext: ContainerRequestContext) {
 
         try {
-            val authMethod = getSchemeForContainerRequestContext(requestContext) ?: throw AuthenticationException()
+            val authMethod = getAuthMethodForContainerRequestContext(requestContext) ?: throw AuthenticationException()
             authMethod.authenticate(requestContext, this)
         } catch (e: AuthenticationException) {
             abortWithUnauthorized(requestContext)
@@ -50,10 +50,10 @@ open class AuthenticationFilter : ContainerRequestFilter, AuthenticatorInterface
     private fun abortWithUnauthorized(requestContext: ContainerRequestContext) {
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build())
     }
-    private fun getSchemeForContainerRequestContext(requestContext: ContainerRequestContext): AuthMethod? {
-        for (scheme in schemes) {
-            if (scheme.isAppliableToContainerRequestContext(requestContext)) {
-                return scheme
+    private fun getAuthMethodForContainerRequestContext(requestContext: ContainerRequestContext): AuthMethod? {
+        for (authMethod in authMethods) {
+            if (authMethod.isAppliableToContainerRequestContext(requestContext)) {
+                return authMethod
             }
         }
         return null
