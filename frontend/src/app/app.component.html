@@ -1,0 +1,12 @@
+<input
+  [(ngModel)]="input"
+  (keyup.enter)="submit()"
+/>
+<button
+  (click)="submit()"
+>Send</button>
+<ul>
+  <li *ngFor="let message of messages">
+    {{message}}
+  </li>
+</ul>

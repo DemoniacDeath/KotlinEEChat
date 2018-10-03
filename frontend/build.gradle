@@ -1,6 +1,5 @@
 plugins {
     id "com.moowork.node" version "1.2.0"
-//    id "net.eikehirsch.react" version '0.4.1'
     id 'war'
 }
 group 'me.demoniacdeath.chat.frontend'
@@ -17,5 +16,5 @@ task npmRunBuild(type: NpmTask) {
 war {
     archiveName 'frontend.war'
     destinationDir = file('out/war')
-    from 'build'
+    from 'dist/frontend'
 }
